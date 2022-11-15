@@ -30,6 +30,7 @@
 		396C56F52913146500E1CA41 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 396C56F42913146500E1CA41 /* User.swift */; };
 		396C56F729131BE500E1CA41 /* RegisterController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 396C56F629131BE500E1CA41 /* RegisterController.swift */; };
 		A35F0C937D93BD8A9420A5A4 /* Pods_Uber_Clone.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8E01A7CCE99E983FEBB7C3C /* Pods_Uber_Clone.framework */; };
+		A64F25B129240543000D1B44 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A64F25B029240543000D1B44 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -59,6 +60,7 @@
 		396C56F42913146500E1CA41 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		396C56F629131BE500E1CA41 /* RegisterController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterController.swift; sourceTree = "<group>"; };
 		4C215A9AE898B7E68129F3EB /* Pods-Uber Clone.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Uber Clone.debug.xcconfig"; path = "Target Support Files/Pods-Uber Clone/Pods-Uber Clone.debug.xcconfig"; sourceTree = "<group>"; };
+		A64F25B029240543000D1B44 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D8E01A7CCE99E983FEBB7C3C /* Pods_Uber_Clone.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Uber_Clone.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -114,6 +116,7 @@
 				396C56C5291311B100E1CA41 /* Assets.xcassets */,
 				396C56C7291311B100E1CA41 /* LaunchScreen.storyboard */,
 				396C56CA291311B100E1CA41 /* Info.plist */,
+				A64F25B029240543000D1B44 /* GoogleService-Info.plist */,
 			);
 			path = "Uber Clone";
 			sourceTree = "<group>";
@@ -265,6 +268,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				396C56C9291311B100E1CA41 /* LaunchScreen.storyboard in Resources */,
+				A64F25B129240543000D1B44 /* GoogleService-Info.plist in Resources */,
 				396C56C6291311B100E1CA41 /* Assets.xcassets in Resources */,
 				396C56C4291311AF00E1CA41 /* Main.storyboard in Resources */,
 			);

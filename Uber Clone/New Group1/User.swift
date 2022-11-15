@@ -6,11 +6,13 @@
 //
 
 import Foundation
+import CoreLocation
 
 struct User{
     let fullname:String
     let email:String
     let type:UserType
+    var location:CLLocation?
     
     init(dictionary:[String:Any]){
         fullname = dictionary["fullname"] as? String ?? ""

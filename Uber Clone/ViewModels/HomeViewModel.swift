@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CoreLocation
 
 class HomeViewModel:NSObject{
     
@@ -30,6 +31,14 @@ class HomeViewModel:NSObject{
                 return
             }
             completion(user)
+        }
+    }
+    
+    func fetchDrivers(location:CLLocation,completion:@escaping(User?)->()){
+        UserService.shared.fetchDrivers(location: location) { user in
+            if let user = user {
+                completion(user)
+            }
         }
     }
 }

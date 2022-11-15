@@ -35,11 +35,17 @@ class HomeController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        signOut()
+//        signOut()
         checkIfUserLoggedin()
         configureUI()
         configureAuthorizationStatus()
         getUserData()
+//        getDriversLocation()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        getDriversLocation()
     }
 
     //MARK: - Helpers
@@ -60,6 +66,16 @@ class HomeController: UIViewController {
             DispatchQueue.main.async {
                 self?.inputLocationView.titleLabel.text = self?.homeViewModel.fullname
             }
+        }
+    }
+    
+    private func getDriversLocation(){
+        guard let location = locationManager.location else {
+            return
+        }
+        
+        homeViewModel.fetchDrivers(location: location) { driver in
+            print("DEBUG: Driver Location is:\(driver?.location)")
         }
     }
     

@@ -12,5 +12,5 @@ class Constants{
     private static let docRef = Database.database().reference()
     
     static let usersRef = docRef.child("users")
-    static let driversLocation = docRef.child("drivers-Locations")
+    static let driversLocationRef = docRef.child("drivers-Locations")
 }

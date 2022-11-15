@@ -6,6 +6,9 @@
 //
 
 import Firebase
+import CoreLocation
+import GeoFire
+
 
 class UserService{
     
@@ -23,6 +26,31 @@ class UserService{
             
             let user = User(dictionary: data)
             completion(user)
+        }
+    }
+    
+    func fetchSpecificUser(uid:String,completion:@escaping(User?)->()){
+        Constants.usersRef.child(uid).observeSingleEvent(of: .value) { snapshot in
+            guard let data = snapshot.value as? [String : Any] else {
+                return
+            }
+            let user = User(dictionary: data)
+            completion(user)
+        }
+    }
+    
+    func fetchDrivers(location:CLLocation,completion:@escaping(User?)->()){
+        let geo = GeoFire(firebaseRef: Constants.driversLocationRef)
+        
+        Constants.driversLocationRef.observe(.value) {snapshot in
+            
+            geo.query(at: location, withRadius: 500).observe(.keyEntered, with: {[weak self] uid,driverLocation in
+                self?.fetchSpecificUser(uid: uid) { user in
+                    var driver = user
+                    driver?.location = driverLocation
+                    completion(driver)
+                }
+            })
         }
     }
 }

@@ -31,7 +31,7 @@ class AuthenticationService{
                 completion(values,nil)
             case .driver:
                 print("Debug: Driver has been created....")
-                let geo = GeoFire(firebaseRef: Constants.driversLocation)
+                let geo = GeoFire(firebaseRef: Constants.driversLocationRef)
                 geo.setLocation(driverLocation, forKey: uid) { error in
                     updateUserData(values: values, uid: uid)
                     completion(values,nil)

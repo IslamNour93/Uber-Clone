@@ -13,8 +13,10 @@ struct User{
     let email:String
     let type:UserType
     var location:CLLocation?
+    var uid:String
     
-    init(dictionary:[String:Any]){
+    init(uid:String,dictionary:[String:Any]){
+        self.uid = uid
         fullname = dictionary["fullname"] as? String ?? ""
         email = dictionary["email"] as? String ?? ""
         type = UserType(rawValue: dictionary["userType"] as? Int ?? 0) ?? .passenger

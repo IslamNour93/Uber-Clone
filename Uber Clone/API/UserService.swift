@@ -23,8 +23,8 @@ class UserService{
             guard let data = snapshot.value as? [String : Any] else {
                 return
             }
-            
-            let user = User(dictionary: data)
+            let userUid = snapshot.key
+            let user = User(uid: userUid, dictionary: data)
             completion(user)
         }
     }
@@ -34,7 +34,8 @@ class UserService{
             guard let data = snapshot.value as? [String : Any] else {
                 return
             }
-            let user = User(dictionary: data)
+            let userUid = snapshot.key
+            let user = User(uid: userUid, dictionary: data)
             completion(user)
         }
     }
@@ -44,7 +45,7 @@ class UserService{
         
         Constants.driversLocationRef.observe(.value) {snapshot in
             
-            geo.query(at: location, withRadius: 500).observe(.keyEntered, with: {[weak self] uid,driverLocation in
+            geo.query(at: location, withRadius: 100).observe(.keyEntered, with: {[weak self] uid,driverLocation in
                 self?.fetchSpecificUser(uid: uid) { user in
                     var driver = user
                     driver?.location = driverLocation

@@ -35,12 +35,11 @@ class HomeController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        signOut()
+//        signOut() 
         checkIfUserLoggedin()
-        configureUI()
         configureAuthorizationStatus()
+        configureUI()
         getUserData()
-//        getDriversLocation()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -74,8 +73,28 @@ class HomeController: UIViewController {
             return
         }
         
-        homeViewModel.fetchDrivers(location: location) { driver in
-            print("DEBUG: Driver Location is:\(driver?.location)")
+        homeViewModel.fetchDrivers(location: location) { [weak self] driver in
+            
+            guard let driver = driver, let strongSelf = self else {
+                return
+            }
+            let coordinate = driver.location?.coordinate
+            let driverAnnotation = DriverAnnotation(uid: driver.uid, coordinate: coordinate!)
+            
+            var driverIsVisible:Bool{
+                return strongSelf.mapView.annotations.contains(where: { annotation -> Bool in
+                    guard let driverAnnotation = annotation as? DriverAnnotation else {return false}
+                    if driverAnnotation.uid == driver.uid{
+                        driverAnnotation.updateDriverAnnotation(coordinate: coordinate!)
+                        return true
+                    }
+                    return false
+                })
+            }
+            
+            if !driverIsVisible{
+                self?.mapView.addAnnotation(driverAnnotation)
+            }
         }
     }
     
@@ -110,6 +129,7 @@ class HomeController: UIViewController {
         mapView.frame = view.frame
         mapView.showsUserLocation = true
         mapView.userTrackingMode = .follow
+        mapView.delegate = self
     }
     
     private func configureTableView(){
@@ -122,6 +142,7 @@ class HomeController: UIViewController {
         tableView.register(LocationsCell.self, forCellReuseIdentifier: LocationsCell.identifier)
         
     }
+    
 }
 
     //MARK: - AuthenticationProtocol
@@ -162,6 +183,8 @@ extension HomeController:CLLocationManagerDelegate{
     }
 }
 
+//MARK: - LocationInputActivationViewDelegate
+
 extension HomeController:LocationInputActivationViewDelegate{
     func presentLocationInputView() {
         inputLocationActivationView.alpha = 0
@@ -171,6 +194,8 @@ extension HomeController:LocationInputActivationViewDelegate{
         }
     }
 }
+
+//MARK: - InputLocationViewDelegate
 
 extension HomeController:InputLocationViewDelegate{
     func dismissInputLocationView() {
@@ -183,11 +208,33 @@ extension HomeController:InputLocationViewDelegate{
         }
     }
 }
+// MARK: - MKMapViewDelegate
+
+extension HomeController:MKMapViewDelegate{
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        if let annotation = annotation as? DriverAnnotation{
+            let annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: DriverAnnotation.identifier)
+            annotationView.image = UIImage(named: "driverAnnotation")
+            return annotationView
+        }
+        return nil
+    }
+}
+
+//MARK: - UITableViewDataSource
 
 extension HomeController:UITableViewDataSource{
     
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return section == 0 ? "Saved Location" : "Locations"
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return section == 0 ? 2 : 5
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -196,6 +243,8 @@ extension HomeController:UITableViewDataSource{
     }
     
 }
+
+//MARK: - UITableViewDelegate
 
 extension HomeController:UITableViewDelegate{
     

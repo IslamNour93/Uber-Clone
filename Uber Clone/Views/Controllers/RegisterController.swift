@@ -116,18 +116,23 @@ class RegisterController: UIViewController {
         
         let type = accountTypeSegmentControl.selectedSegmentIndex
         var userType:UserType
-        if type == 0{
+        
+        switch type{
+        case 0:
             userType = .passenger
-        }else{
+        case 1:
             userType = .driver
+        default:
+            userType = .passenger
         }
+        
         let credential = Credentials(email: email, fullname: fullname, password: password, userType: type)
         
         configureTextFields()
         guard let location = location else {
             return
         }
-        viewModel.signup(withCredential: credential,userType: .driver,driverLocation: location) { [weak self] error in
+        viewModel.signup(withCredential: credential,userType: userType,driverLocation: location) { [weak self] error in
             
             if let error = error {
                 self?.showMessage(withTitle: "Can't sign up", message: error.localizedDescription)

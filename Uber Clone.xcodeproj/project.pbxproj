@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		396C56BD291311AF00E1CA41 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 396C56BC291311AF00E1CA41 /* AppDelegate.swift */; };
 		396C56BF291311AF00E1CA41 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 396C56BE291311AF00E1CA41 /* SceneDelegate.swift */; };
-		396C56C1291311AF00E1CA41 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 396C56C0291311AF00E1CA41 /* ViewController.swift */; };
 		396C56C4291311AF00E1CA41 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 396C56C2291311AF00E1CA41 /* Main.storyboard */; };
 		396C56C6291311B100E1CA41 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 396C56C5291311B100E1CA41 /* Assets.xcassets */; };
 		396C56C9291311B100E1CA41 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 396C56C7291311B100E1CA41 /* LaunchScreen.storyboard */; };
@@ -31,6 +30,7 @@
 		396C56F729131BE500E1CA41 /* RegisterController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 396C56F629131BE500E1CA41 /* RegisterController.swift */; };
 		A35F0C937D93BD8A9420A5A4 /* Pods_Uber_Clone.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8E01A7CCE99E983FEBB7C3C /* Pods_Uber_Clone.framework */; };
 		A64F25B129240543000D1B44 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A64F25B029240543000D1B44 /* GoogleService-Info.plist */; };
+		A67410A6292EEA9A001C4A99 /* DriverAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A67410A5292EEA9A001C4A99 /* DriverAnnotation.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,7 +38,6 @@
 		396C56B9291311AF00E1CA41 /* Uber Clone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Uber Clone.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		396C56BC291311AF00E1CA41 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		396C56BE291311AF00E1CA41 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		396C56C0291311AF00E1CA41 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		396C56C3291311AF00E1CA41 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		396C56C5291311B100E1CA41 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		396C56C8291311B100E1CA41 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -61,6 +60,7 @@
 		396C56F629131BE500E1CA41 /* RegisterController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterController.swift; sourceTree = "<group>"; };
 		4C215A9AE898B7E68129F3EB /* Pods-Uber Clone.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Uber Clone.debug.xcconfig"; path = "Target Support Files/Pods-Uber Clone/Pods-Uber Clone.debug.xcconfig"; sourceTree = "<group>"; };
 		A64F25B029240543000D1B44 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		A67410A5292EEA9A001C4A99 /* DriverAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriverAnnotation.swift; sourceTree = "<group>"; };
 		D8E01A7CCE99E983FEBB7C3C /* Pods_Uber_Clone.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Uber_Clone.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -111,7 +111,6 @@
 				396C56D32913125000E1CA41 /* API */,
 				396C56EE2913133F00E1CA41 /* Views */,
 				396C56F1291313EF00E1CA41 /* Delegates */,
-				396C56C0291311AF00E1CA41 /* ViewController.swift */,
 				396C56C2291311AF00E1CA41 /* Main.storyboard */,
 				396C56C5291311B100E1CA41 /* Assets.xcassets */,
 				396C56C7291311B100E1CA41 /* LaunchScreen.storyboard */,
@@ -147,6 +146,7 @@
 				396C56DD2913130600E1CA41 /* Extensions.swift */,
 				396C56DC2913130400E1CA41 /* LocationHandler.swift */,
 				396C56DE2913130700E1CA41 /* Protocols.swift */,
+				A67410A5292EEA9A001C4A99 /* DriverAnnotation.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -324,7 +324,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				396C56EC2913132700E1CA41 /* LocationsCell.swift in Sources */,
-				396C56C1291311AF00E1CA41 /* ViewController.swift in Sources */,
 				396C56E32913130800E1CA41 /* Constants.swift in Sources */,
 				396C56E12913130800E1CA41 /* Extensions.swift in Sources */,
 				396C56EA2913132700E1CA41 /* LoginController.swift in Sources */,
@@ -338,6 +337,7 @@
 				396C56BD291311AF00E1CA41 /* AppDelegate.swift in Sources */,
 				396C56BF291311AF00E1CA41 /* SceneDelegate.swift in Sources */,
 				396C56ED2913132700E1CA41 /* HomeController.swift in Sources */,
+				A67410A6292EEA9A001C4A99 /* DriverAnnotation.swift in Sources */,
 				396C56F52913146500E1CA41 /* User.swift in Sources */,
 				396C56D6291312DF00E1CA41 /* AuthenticationService.swift in Sources */,
 				396C56E92913132700E1CA41 /* InputLocationView.swift in Sources */,

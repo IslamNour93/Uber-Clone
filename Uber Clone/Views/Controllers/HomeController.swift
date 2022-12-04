@@ -12,6 +12,8 @@ class HomeController: UIViewController {
     
     //MARK: - Properties
     
+    private var placemarksResults = [MKPlacemark]()
+    
     private var viewModel=AuthenticationViewModel()
     
     private let mapView:MKMapView={
@@ -135,6 +137,7 @@ class HomeController: UIViewController {
     private func configureTableView(){
         
         view.addSubview(tableView)
+        tableView.rowHeight = 60
         let height = view.frame.height-inputLocationActivationViewHeight
         tableView.frame = CGRect(x: 0, y: view.frame.height, width: view.frame.width, height: height)
         tableView.delegate = self
@@ -195,9 +198,39 @@ extension HomeController:LocationInputActivationViewDelegate{
     }
 }
 
+private extension HomeController{
+    private func searchBy(naturalLanguageQuery:String,completion:@escaping([MKPlacemark])->()){
+        var results = [MKPlacemark]()
+        
+        let request = MKLocalSearch.Request()
+        request.region = mapView.region
+        request.naturalLanguageQuery = naturalLanguageQuery
+        
+        let search = MKLocalSearch(request: request)
+        
+        search.start { localSearch, error in
+            localSearch?.mapItems.forEach({ item in
+                results.append(item.placemark)
+            })
+            completion(results)
+        }
+    }
+}
+
 //MARK: - InputLocationViewDelegate
 
 extension HomeController:InputLocationViewDelegate{
+    func excuteSearch(query: String) {
+        searchBy(naturalLanguageQuery: query) { [weak self] results in
+            print(results)
+            guard let strongSelf = self else{return}
+            strongSelf.placemarksResults = results
+            DispatchQueue.main.async {
+                strongSelf.tableView.reloadData()
+            }
+        }
+    }
+    
     func dismissInputLocationView() {
         inputLocationView.alpha = 0
         UIView.animate(withDuration: 0.3) {
@@ -234,11 +267,14 @@ extension HomeController:UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return section == 0 ? 2 : 5
+        return section == 0 ? 2 : placemarksResults.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: LocationsCell.identifier, for: indexPath) as! LocationsCell
+        if indexPath.section == 1{
+        cell.placemark = placemarksResults[indexPath.row]
+        }
         return cell
     }
     

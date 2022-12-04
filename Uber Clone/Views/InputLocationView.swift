@@ -9,6 +9,7 @@ import UIKit
 
 protocol InputLocationViewDelegate:AnyObject{
     func dismissInputLocationView()
+    func excuteSearch(query:String)
 }
 
 
@@ -113,11 +114,21 @@ class InputLocationView: UIView {
         addSubview(destinationTextField)
         destinationTextField.centerY(inView: endPointView)
         destinationTextField.anchor(left:endPointView.rightAnchor,right: rightAnchor,paddingLeft: 8,paddingRight: 32)
+        destinationTextField.delegate = self
     }
     
     //MARK: - Actions
     
     @objc func handleBackTapped(){
         delegate?.dismissInputLocationView()
+    }
+}
+
+extension InputLocationView:UITextFieldDelegate{
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        guard let query = textField.text else {return false}
+        delegate?.excuteSearch(query: query)
+        return true
     }
 }

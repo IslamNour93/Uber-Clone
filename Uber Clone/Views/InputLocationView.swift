@@ -21,7 +21,7 @@ class InputLocationView: UIView {
     
     private let backButton:UIButton={
         let button = UIButton(type: .system)
-        button.setImage(UIImage(named: "baseline_arrow_back_black_36dp")?.withRenderingMode(.alwaysOriginal), for: .normal)
+        button.setImage(UIImage(named: "back")?.withRenderingMode(.alwaysOriginal), for: .normal)
         button.addTarget(self, action: #selector(handleBackTapped), for: .touchUpInside)
         return button
     }()

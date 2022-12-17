@@ -27,6 +27,9 @@ class HomeController: UIViewController {
     
     private let mapView:MKMapView={
         let mv = MKMapView()
+        #if targetEnvironment(simulator)
+        mv.showsTraffic = false
+        #endif
         return mv
     }()
     
@@ -40,7 +43,11 @@ class HomeController: UIViewController {
     
     private final let inputLocationActivationViewHeight:CGFloat = 200
     
+    private final let confirmTripViewHeight:CGFloat = 300
+    
     private var homeViewModel=HomeViewModel()
+    
+    private let confirmTripView = ConfirmTripView()
     
     private var actionButtonConfiguration:ActionButtonConfiguration?
     
@@ -83,7 +90,7 @@ class HomeController: UIViewController {
                 })
                 self?.customizeActionButton(actionButtonConfig: .showMenu)
             }
-            
+            presentCofirmTripView(shouldShow:false)
             mapView.removeAnnotations(annotations)
             
         case .none:
@@ -151,6 +158,7 @@ class HomeController: UIViewController {
     
     private func configureUI(){
         configureMapView()
+        configureConfirmTripView()
         
         view.addSubview(actionButton)
         actionButton.anchor(top:view.safeAreaLayoutGuide.topAnchor,left: view.leftAnchor,paddingTop: 16,paddingLeft: 16,width: 30,height: 30)
@@ -191,6 +199,26 @@ class HomeController: UIViewController {
         
     }
     
+    private func configureConfirmTripView(){
+        view.addSubview(confirmTripView)
+        confirmTripView.delegate = self
+        confirmTripView.frame = CGRect(x: 0, y: view.frame.height, width: view.frame.width, height: confirmTripViewHeight)
+    }
+    
+    private func presentCofirmTripView(shouldShow:Bool,destination:MKPlacemark?=nil){
+        if shouldShow{
+            confirmTripView.frame = CGRect(x: 0, y: view.frame.height-confirmTripViewHeight, width: view.frame.width, height: confirmTripViewHeight)
+            if let destination = destination {
+                confirmTripView.selectedPlacemark = destination
+            }
+        }else{
+            UIView.animate(withDuration: 0.3) {[weak self] in
+                guard let self = self else {return}
+                self.confirmTripView.frame = CGRect(x: 0, y: self.view.frame.height, width: self.view.frame.width, height: self.confirmTripViewHeight)
+            }
+        }
+    }
+    
     private func dismissInputView(completion:((Bool)->Void)? = nil){
         
         UIView.animate(withDuration: 0.3) {[weak self] in
@@ -229,8 +257,6 @@ class HomeController: UIViewController {
             }
             guard let response = response else {return}
             
-//            let route = response.routes[0]
-//            self.mapView.addOverlay(route.polyline)
             for route in response.routes{
                 self.mapView.addOverlay(route.polyline)
                 self.mapView.setVisibleMapRect(route.polyline.boundingMapRect, animated: true)
@@ -291,6 +317,8 @@ extension HomeController:LocationInputActivationViewDelegate{
     }
 }
 
+//MARK: - SearchFunctions
+
 private extension HomeController{
     private func searchBy(naturalLanguageQuery:String,completion:@escaping([MKPlacemark])->()){
         var results = [MKPlacemark]()
@@ -343,10 +371,27 @@ extension HomeController:MKMapViewDelegate{
     
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         
-        let render = MKPolylineRenderer(overlay: overlay as! MKPolyline)
+        if let overlay =  overlay as? MKPolyline  {
+               let render = MKPolylineRenderer(overlay: overlay)
                 render.strokeColor = .blueTintColor
                 render.lineWidth = 3
-                return render
+            return render
+        }
+        fatalError("Polyline Renderer could not be initialized")
+    }
+}
+
+//MARK: - ConfirmTripDelegate
+
+extension HomeController:ConfirmTripDelegate{
+    func confirmTrip(_ confirmTripView: ConfirmTripView) {
+        guard let pickupLocation = mapView.userLocation.location?.coordinate,let destination = confirmTripView.selectedPlacemark?.coordinate else{return}
+        
+        homeViewModel.uploadTrip(pickupLocation: pickupLocation, destination: destination) { error, dataRef in
+            if let error = error{
+                print("DEBUG: can't upload a trip:\(error.localizedDescription)")
+            }
+        }
     }
 }
 
@@ -363,32 +408,59 @@ extension HomeController:UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return section == 0 ? 2 : placemarksResults.count
+        switch section{
+        case 0:
+            return 2
+        case 1:
+           return placemarksResults.count
+        default:
+            return 0
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: LocationsCell.identifier, for: indexPath) as! LocationsCell
-        if indexPath.section == 1{
-        cell.placemark = placemarksResults[indexPath.row]
+        switch indexPath.section{
+        case 0:
+            print("DEBUG: Cell in section 1")
+        case 1:
+            cell.placemark = placemarksResults[indexPath.row]
+            return cell
+        default:
+            print("DEBUG: Cell defult case")
         }
-        return cell
+        return LocationsCell()
     }
-    
 }
 
 //MARK: - UITableViewDelegate
 
 extension HomeController:UITableViewDelegate{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let selectedPlace = placemarksResults[indexPath.row]
-        let destination = MKMapItem(placemark: selectedPlace)
-        self.customizeActionButton(actionButtonConfig: .dismissActionView)
-        self.generateTripLine(toDestination: destination)
-        dismissInputView { [weak self] _ in
-            let annotation = MKPointAnnotation()
-            annotation.coordinate = selectedPlace.coordinate
-            self?.mapView.addAnnotation(annotation)
-            self?.mapView.selectAnnotation(annotation, animated: true)
+        
+        switch indexPath.section{
+        case 0:
+            print("Saved Locations Section")
+        case 1:
+            let selectedPlace = placemarksResults[indexPath.row]
+            let destination = MKMapItem(placemark: selectedPlace)
+            generateTripLine(toDestination: destination)
+            
+            self.customizeActionButton(actionButtonConfig: .dismissActionView)
+            dismissInputView { [weak self] _ in
+                let annotation = MKPointAnnotation()
+                annotation.coordinate = selectedPlace.coordinate
+                self?.mapView.addAnnotation(annotation)
+                self?.mapView.selectAnnotation(annotation, animated: true)
+                print("Destination is:\(destination.placemark.coordinate),and annotation coordinates are:\(annotation.coordinate)")
+                
+                if let annotations = self?.mapView.annotations.filter({!$0.isKind(of: DriverAnnotation.self)}){
+                    self?.mapView.showAnnotations(annotations, animated: true)}
+                
+                self?.presentCofirmTripView(shouldShow: true, destination: selectedPlace)
+            }
+        default:
+            print("DEBUG: Did select Default case ")
         }
     }
 }

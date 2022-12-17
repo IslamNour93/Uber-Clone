@@ -7,6 +7,7 @@
 
 import Foundation
 import CoreLocation
+import Firebase
 
 class HomeViewModel:NSObject{
     
@@ -40,5 +41,9 @@ class HomeViewModel:NSObject{
                 completion(user)
             }
         }
+    }
+    
+    func uploadTrip(pickupLocation:CLLocationCoordinate2D,destination:CLLocationCoordinate2D,completion: @escaping(Error?,DatabaseReference)->()){
+        PassengerService.shared.uploadTrip(pickupLocation: pickupLocation, destination: destination, completion: completion)
     }
 }

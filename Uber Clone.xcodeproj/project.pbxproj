@@ -30,7 +30,9 @@
 		396C56F729131BE500E1CA41 /* RegisterController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 396C56F629131BE500E1CA41 /* RegisterController.swift */; };
 		A35F0C937D93BD8A9420A5A4 /* Pods_Uber_Clone.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8E01A7CCE99E983FEBB7C3C /* Pods_Uber_Clone.framework */; };
 		A64F25B129240543000D1B44 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A64F25B029240543000D1B44 /* GoogleService-Info.plist */; };
+		A66288B829475A7B00F5518C /* PassengerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A66288B729475A7B00F5518C /* PassengerService.swift */; };
 		A67410A6292EEA9A001C4A99 /* DriverAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A67410A5292EEA9A001C4A99 /* DriverAnnotation.swift */; };
+		A69CAB5C293F113C0083266B /* ConfirmTripView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A69CAB5B293F113C0083266B /* ConfirmTripView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -60,7 +62,9 @@
 		396C56F629131BE500E1CA41 /* RegisterController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterController.swift; sourceTree = "<group>"; };
 		4C215A9AE898B7E68129F3EB /* Pods-Uber Clone.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Uber Clone.debug.xcconfig"; path = "Target Support Files/Pods-Uber Clone/Pods-Uber Clone.debug.xcconfig"; sourceTree = "<group>"; };
 		A64F25B029240543000D1B44 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		A66288B729475A7B00F5518C /* PassengerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassengerService.swift; sourceTree = "<group>"; };
 		A67410A5292EEA9A001C4A99 /* DriverAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriverAnnotation.swift; sourceTree = "<group>"; };
+		A69CAB5B293F113C0083266B /* ConfirmTripView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmTripView.swift; sourceTree = "<group>"; };
 		D8E01A7CCE99E983FEBB7C3C /* Pods_Uber_Clone.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Uber_Clone.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -156,6 +160,7 @@
 			children = (
 				396C56D4291312DD00E1CA41 /* AuthenticationService.swift */,
 				396C56D5291312DE00E1CA41 /* UserService.swift */,
+				A66288B729475A7B00F5518C /* PassengerService.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -165,6 +170,7 @@
 			children = (
 				396C56E62913132500E1CA41 /* InputLocationActivationView.swift */,
 				396C56E42913132300E1CA41 /* InputLocationView.swift */,
+				A69CAB5B293F113C0083266B /* ConfirmTripView.swift */,
 				396C56EF2913136500E1CA41 /* Controllers */,
 				396C56F02913137700E1CA41 /* Cells */,
 			);
@@ -331,6 +337,7 @@
 				396C56DA291312F200E1CA41 /* HomeViewModel.swift in Sources */,
 				396C56DB291312F200E1CA41 /* AuthenticationViewModel.swift in Sources */,
 				396C56D7291312DF00E1CA41 /* UserService.swift in Sources */,
+				A69CAB5C293F113C0083266B /* ConfirmTripView.swift in Sources */,
 				396C56E22913130800E1CA41 /* Protocols.swift in Sources */,
 				396C56F729131BE500E1CA41 /* RegisterController.swift in Sources */,
 				396C56F32913145C00E1CA41 /* Credentials.swift in Sources */,
@@ -338,6 +345,7 @@
 				396C56BF291311AF00E1CA41 /* SceneDelegate.swift in Sources */,
 				396C56ED2913132700E1CA41 /* HomeController.swift in Sources */,
 				A67410A6292EEA9A001C4A99 /* DriverAnnotation.swift in Sources */,
+				A66288B829475A7B00F5518C /* PassengerService.swift in Sources */,
 				396C56F52913146500E1CA41 /* User.swift in Sources */,
 				396C56D6291312DF00E1CA41 /* AuthenticationService.swift in Sources */,
 				396C56E92913132700E1CA41 /* InputLocationView.swift in Sources */,

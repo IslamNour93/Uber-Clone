@@ -13,4 +13,5 @@ class Constants{
     
     static let usersRef = docRef.child("users")
     static let driversLocationRef = docRef.child("drivers-Locations")
+    static let tripsRef = docRef.child("trips")
 }
